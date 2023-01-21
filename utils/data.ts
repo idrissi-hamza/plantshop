@@ -4,7 +4,6 @@ export type Plant = {
   family: string;
   image: string[];
   price: string;
-  characteristic: string;
   rating: number;
   countInStock: number;
   description: string;
@@ -25,7 +24,6 @@ const data = {
         '/images/euly.jpeg',
       ],
       price: '25$',
-      characteristic: '',
       rating: 4,
       countInStock: 10,
       description:
@@ -45,7 +43,6 @@ const data = {
         '/images/euly.jpeg',
       ],
       price: '25$',
-      // placement:"",
       rating: 4.5,
       countInStock: 9,
       description:
@@ -65,7 +62,6 @@ const data = {
         '/images/euly.jpeg',
       ],
       price: '25$',
-      characteristic: '',
       rating: 4,
       countInStock: 0,
       description:
@@ -85,7 +81,6 @@ const data = {
         '/images/euly.jpeg',
       ],
       price: '25$',
-      characteristic: '',
       rating: 4,
       countInStock: 10,
       description:
