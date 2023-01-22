@@ -3,7 +3,7 @@ export type Plant = {
   slug: string;
   family: string;
   image: string[];
-  price: string;
+  price: number;
   rating: number;
   countInStock: number;
   description: string;
@@ -23,7 +23,7 @@ const data = {
         '/images/velvet.jpg',
         '/images/euly.jpeg',
       ],
-      price: '25$',
+      price: 25,
       rating: 4,
       countInStock: 10,
       description:
@@ -42,7 +42,7 @@ const data = {
         '/images/velvet.jpg',
         '/images/euly.jpeg',
       ],
-      price: '25$',
+      price: 25,
       rating: 4.5,
       countInStock: 9,
       description:
@@ -61,7 +61,7 @@ const data = {
         '/images/velvet.jpg',
         '/images/euly.jpeg',
       ],
-      price: '25$',
+      price: 25,
       rating: 4,
       countInStock: 0,
       description:
@@ -80,7 +80,7 @@ const data = {
         '/images/velvet.jpg',
         '/images/euly.jpeg',
       ],
-      price: '25$',
+      price: 25,
       rating: 4,
       countInStock: 10,
       description:
