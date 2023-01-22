@@ -74,7 +74,7 @@ const svgs = [
   },
 
   {
-    specification: 'benifits',
+    specification: 'benefits',
     svg: (
       <svg
         className="w-10"
