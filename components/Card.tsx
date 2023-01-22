@@ -46,7 +46,7 @@ const Card = ({ plant }: { plant: Plant }) => {
             className="cart"
             
           >
-            <span className="price">{plant.price}</span>
+            <span className="price">${plant.price}</span>
             <span className="add-to-cart">
               <span className="txt">Add in cart</span>
             </span>
