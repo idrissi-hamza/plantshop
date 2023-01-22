@@ -45,7 +45,7 @@ const Header = () => {
               <a className=" block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 relative">
                 Cart
                 {cart.cartItems.length > 0 && (
-                  <span className="ml-1 rounded-full bg-red-500  text-xs text-white font-bold absolute aspect-square w-5 left-5 -top-2 flex items-center justify-center">
+                  <span className="ml-1 rounded-full bg-red-500  text-xs text-white font-bold absolute aspect-square w-5 left-5 -top-2 flex items-center justify-center animate-bounce">
                     {cart.cartItems.reduce((cum, cur) => cum + cur.quantity, 0)}
                   </span>
                 )}
