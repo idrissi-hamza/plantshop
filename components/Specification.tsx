@@ -11,8 +11,8 @@ const Specification = ({ plant, n = 3 }: { plant: Plant; n?: number }) => {
           className=" flex flex-col justify-center items-center "
         >
           <span className="w-10">{el.svg}</span>
-          <span className="font-bold text-sm">{el.specification}</span>
-          <span className="text-sm no">{plant.specifications[i]}</span>
+          <span className=" text-sm font-semibold">{el.specification}</span>
+          <span className="text-sm font-bold">{plant.specifications[i]}</span>
         </li>
       ))}
     </ul>

@@ -16,7 +16,7 @@ const Layout = ({
   return (
     <div className="min-h-screen flex flex-col max-w-8xl mx-auto ">
       <Head>
-        <title>{title}</title>
+        <title>{title ? `${title} - Green Shop ` : 'Green Shop'}</title>
         <meta
           name="description"
           content={description}
@@ -37,7 +37,7 @@ const Layout = ({
   );
 };
 Layout.defaultProps = {
-  title: 'shop Market | Find your product',
+  title: 'Green Shop | Find your plant',
   description: 'Find your product',
   keywords: 'product1,product2',
   // TODO to custom later
