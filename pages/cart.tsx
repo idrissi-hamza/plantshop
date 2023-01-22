@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useStoreContext } from '../utils/Store';
-import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
 import { BsTrash } from 'react-icons/bs';
 import type { AddedPlant } from '../utils/Store';
@@ -16,18 +15,18 @@ const Cart = () => {
     dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
   };
 
-  const updateCartHandler = (item, qty) => {
+  const updateCartHandler = (item: AddedPlant, qty: number) => {
     dispatch({
       type: 'CART_ADD_ITEM',
       payload: { ...item, quantity: +qty },
     });
   };
-  const addToCartHandler = (item) => {
+  const addToCartHandler = (item: AddedPlant) => {
     if (item.quantity < item.countInStock) {
       updateCartHandler(item, +item.quantity + 1);
     }
   };
-  const removeFromCartHandler = (item) => {
+  const removeFromCartHandler = (item: AddedPlant) => {
     if (item.quantity > 1) {
       updateCartHandler(item, +item.quantity - 1);
     } else {
