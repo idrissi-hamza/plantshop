@@ -2,15 +2,18 @@ import Link from 'next/link';
 import ActiveLink from './ActiveLink';
 
 import { useStoreContext } from '@/utils/Store';
+import { useState, useEffect } from 'react';
 
 const Header = () => {
-  // const navLinks = [
-  //   { id: '1', label: 'Cart', link: '/cart' },
-  //   { id: '2', label: 'Login', link: '/login' },
-  // ];
-
-  const { state, dispatch } = useStoreContext();
+  const { state } = useStoreContext();
   const { cart } = state;
+  const [cartItemsCount, setCartItemsCount] = useState(0);
+  useEffect(() => {
+    setCartItemsCount(
+      cart.cartItems.reduce((cum, cur) => cum + cur.quantity, 0)
+    );
+  }, [cart.cartItems]);
+
   return (
     <header className="flex sm:flex-row flex-col justify-between items-center h-auto sm:h-16 px-8 shadow-md w-full bg-[#fffdf4]   ">
       <style jsx>{`
@@ -44,9 +47,9 @@ const Header = () => {
             >
               <a className=" block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 relative">
                 Cart
-                {cart.cartItems.length > 0 && (
+                {cartItemsCount>0 && (
                   <span className="ml-1 rounded-full bg-red-500  text-xs text-white font-bold absolute aspect-square w-5 left-5 -top-2 flex items-center justify-center animate-bounce">
-                    {cart.cartItems.reduce((cum, cur) => cum + cur.quantity, 0)}
+                    {cartItemsCount}
                   </span>
                 )}
               </a>

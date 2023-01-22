@@ -4,6 +4,7 @@ import { useStoreContext } from '../utils/Store';
 import Layout from '@/components/Layout';
 import { BsTrash } from 'react-icons/bs';
 import type { AddedPlant } from '../utils/Store';
+import { useEffect, useState } from 'react';
 
 const Cart = () => {
   // const router = useRouter();
@@ -11,6 +12,12 @@ const Cart = () => {
   const {
     cart: { cartItems },
   } = state;
+
+  const [cartItemsC, setcartItemsC] = useState<AddedPlant[]>([]);
+  useEffect(() => {
+    setcartItemsC(cartItems);
+  }, [cartItems]);
+
   const removeItemHandler = (item: AddedPlant) => {
     dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
   };
@@ -37,7 +44,7 @@ const Cart = () => {
     <Layout title="Shopping Cart">
       <div className="p-10 min-h-[60vh]">
         <h1 className="mb-4 text-xl">Shopping Cart</h1>
-        {cartItems.length === 0 ? (
+        {cartItemsC.length === 0 ? (
           <div>
             Cart is empty. <Link href="/">Go shopping</Link>
           </div>
@@ -54,7 +61,7 @@ const Cart = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {cartItems.map((item) => (
+                  {cartItemsC.map((item) => (
                     <tr
                       key={item.slug}
                       className="border-b group  transition-all duration-500 ease-in-out"
@@ -118,8 +125,8 @@ const Cart = () => {
             <div className="shadow-md p-4 hover:scale-105 transition-all duration-500 ease-in-out group cursor-pointer border">
               <div className="flex flex-col">
                 <div className="pb-3 text-xl">
-                  Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}) : $
-                  {cartItems.reduce((a, c) => a + c.quantity * c.price, 0)}
+                  Subtotal ({cartItemsC.reduce((a, c) => a + c.quantity, 0)}) : $
+                  {cartItemsC.reduce((a, c) => a + c.quantity * c.price, 0)}
                 </div>
 
                 <Link

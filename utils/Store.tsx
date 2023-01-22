@@ -1,6 +1,7 @@
-import React, { createContext, useReducer, Dispatch, useContext } from 'react';
+import React, { createContext, useReducer, Dispatch, useContext, useEffect } from 'react';
 import type { Plant } from './data';
-
+import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 //type of createContext
 
 export type AddedPlant = Plant & {
@@ -11,8 +12,9 @@ type State = {
   cart: { cartItems: AddedPlant[] };
 };
 
+const cartCookie = Cookies.get('cart');
 const initialState: State = {
-  cart: { cartItems: [] },
+  cart: cartCookie ? JSON.parse(cartCookie) : { cartItems: [] },
 };
 
 type Action =
@@ -38,16 +40,17 @@ export const storeReducer = (state: State, action: Action) => {
             item.name === existItem.name ? newItem : item
           )
         : [...state.cart.cartItems, newItem];
+      Cookies.set('cart', JSON.stringify({ ...state.cart, cartItems }));
       return { ...state, cart: { ...state.cart, cartItems } };
     }
     case 'CART_REMOVE_ITEM': {
       const cartItems = state.cart.cartItems.filter(
         (item) => item.slug !== action.payload.slug
       );
+      Cookies.set('cart', JSON.stringify({ ...state.cart, cartItems }));
       return { ...state, cart: { ...state.cart, cartItems } };
     }
-    // case 'PREVIOUS':
-    //   return { ...state, step: state.step - 1 };
+
     default:
       return state;
   }
