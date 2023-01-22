@@ -23,7 +23,7 @@ const data = {
         '/images/velvet.jpg',
         '/images/euly.jpeg',
       ],
-      price: 25,
+      price: 10,
       rating: 4,
       countInStock: 10,
       description:
@@ -61,7 +61,7 @@ const data = {
         '/images/velvet.jpg',
         '/images/euly.jpeg',
       ],
-      price: 25,
+      price: 20 ,
       rating: 4,
       countInStock: 0,
       description:

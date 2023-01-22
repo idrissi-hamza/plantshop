@@ -7,13 +7,32 @@ import { BsTrash } from 'react-icons/bs';
 import type { AddedPlant } from '../utils/Store';
 
 const Cart = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const { state, dispatch } = useStoreContext();
   const {
     cart: { cartItems },
   } = state;
   const removeItemHandler = (item: AddedPlant) => {
     dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
+  };
+
+  const updateCartHandler = (item, qty) => {
+    dispatch({
+      type: 'CART_ADD_ITEM',
+      payload: { ...item, quantity: +qty },
+    });
+  };
+  const addToCartHandler = (item) => {
+    if (item.quantity < item.countInStock) {
+      updateCartHandler(item, +item.quantity + 1);
+    }
+  };
+  const removeFromCartHandler = (item) => {
+    if (item.quantity > 1) {
+      updateCartHandler(item, +item.quantity - 1);
+    } else {
+      removeItemHandler(item);
+    }
   };
   return (
     <Layout title="Shopping Cart">
@@ -25,12 +44,12 @@ const Cart = () => {
           </div>
         ) : (
           <div className="grid md:grid-cols-4 md:gap-5 min-h-full items-start">
-            <div className="overflow-x-auto md:col-span-3 md:mx-10 border shadow-md hover:scale-105  transition-all duration-500 ease-in-out cursor-pointer">
+            <div className="overflow-x-auto md:col-span-3 md:mx-10 border shadow-md  cursor-pointer">
               <table className="min-w-full ">
                 <thead className="border-b bg-[#e8e6da]">
                   <tr>
-                    <th className="p-5 text-left">Item</th>
-                    <th className="p-5 text-right">Quantity</th>
+                    <th className="p-5 text-left">Items</th>
+                    <th className="p-5 ">Quantity</th>
                     <th className="p-5 text-right">Price</th>
                     <th className="p-5">Action</th>
                   </tr>
@@ -39,24 +58,53 @@ const Cart = () => {
                   {cartItems.map((item) => (
                     <tr
                       key={item.slug}
-                      className="border-b"
+                      className="border-b group  transition-all duration-500 ease-in-out"
                     >
                       <td>
                         <Link
-                          href={`/product/${item.slug}`}
-                          className="flex items-center gap-3"
+                          href={`/plants/${item.slug}`}
+                          className="flex items-center gap-3 p-1 "
                         >
                           <Image
                             src={item.image[0]}
                             alt={item.name}
-                            width={50}
-                            height={50}
+                            width={60}
+                            height={60}
                           ></Image>
 
                           {item.name}
                         </Link>
                       </td>
-                      <td className="p-5 text-right">{item.quantity}</td>
+                      {/* <td className="p-5 text-right">{item.quantity}</td> */}
+                      <td className="">
+                        <div className="  flex space-x-4 items-center justify-center">
+                          <button
+                            className="font-bold text-lg w-6 h-6 rounded-full bg-[#e8e6da] flex items-center justify-center hover:bg-[#e8e6da5e] transition-all duration-300 ease-in-out"
+                            onClick={() => removeFromCartHandler(item)}
+                          >
+                            -
+                          </button>
+                          <input
+                            type={'number'}
+                            value={item.quantity}
+                            className="w-6 ppearance-none disabled flex justify-center items-center "
+                            disabled
+                            onChange={(e) =>
+                              updateCartHandler(item, +e.target.value)
+                            }
+                            max={item.countInStock}
+                            min={1}
+
+                            // step={1}
+                          />
+                          <button
+                            className="font-bold text-lg w-6 h-6 rounded-full bg-[#e8e6da] flex items-center justify-center hover:bg-[#e8e6da5e] transition-all duration-300 ease-in-out"
+                            onClick={() => addToCartHandler(item)}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </td>
                       <td className="p-5 text-right">${item.price}</td>
                       <td className="p-5 text-center">
                         <button onClick={() => removeItemHandler(item)}>
@@ -68,8 +116,8 @@ const Cart = () => {
                 </tbody>
               </table>
             </div>
-            <div className="shadow-md p-4 hover:scale-105 transition-all duration-500 ease-in-out group cursor-pointer">
-              <div className='flex flex-col'>
+            <div className="shadow-md p-4 hover:scale-105 transition-all duration-500 ease-in-out group cursor-pointer border">
+              <div className="flex flex-col">
                 <div className="pb-3 text-xl">
                   Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}) : $
                   {cartItems.reduce((a, c) => a + c.quantity * c.price, 0)}
