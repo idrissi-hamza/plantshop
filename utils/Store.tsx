@@ -1,18 +1,9 @@
 import React, { createContext, useReducer, Dispatch, useContext } from 'react';
-// import type { Plant } from './data';
+import type { Plant } from './data';
 
 //type of createContext
 
-export type AddedPlant = {
-  name: string;
-  slug: string;
-  family: string;
-  image: string[];
-  price: string;
-  rating: number;
-  countInStock: number;
-  description: string;
-  specifications: string[];
+export type AddedPlant = Plant & {
   quantity: number;
 };
 
@@ -26,7 +17,7 @@ const initialState: State = {
 
 type Action =
   | { type: 'CART_ADD_ITEM'; payload: AddedPlant }
-  | { type: 'PREVIOUS' };
+  | { type: 'CART_REMOVE_ITEM'; payload: AddedPlant };
 
 type StoreDispatch = Dispatch<Action>;
 
@@ -47,6 +38,12 @@ export const storeReducer = (state: State, action: Action) => {
             item.name === existItem.name ? newItem : item
           )
         : [...state.cart.cartItems, newItem];
+      return { ...state, cart: { ...state.cart, cartItems } };
+    }
+    case 'CART_REMOVE_ITEM': {
+      const cartItems = state.cart.cartItems.filter(
+        (item) => item.slug !== action.payload.slug
+      );
       return { ...state, cart: { ...state.cart, cartItems } };
     }
     // case 'PREVIOUS':
