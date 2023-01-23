@@ -19,6 +19,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "utils/svgs.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "utils/svgs.js", "utils/db.ts"],
   "exclude": ["node_modules"]
 }

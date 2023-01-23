@@ -1,3 +1,5 @@
+import bcrypt from 'bcryptjs';
+
 export type Plant = {
   name: string;
   slug: string;
@@ -10,6 +12,20 @@ export type Plant = {
   specifications: string[];
 };
 const data = {
+  users: [
+    {
+      name: 'hamzaAdmin',
+      email: 'admin@example.com',
+      password: bcrypt.hashSync('123456'),
+      isAdmin: true,
+    },
+    {
+      name: 'hamzaUser',
+      email: 'user@example.com',
+      password: bcrypt.hashSync('123456'),
+      isAdmin: false,
+    },
+  ],
   plants: [
     {
       name: 'Velvet Baby Plant Set',
@@ -61,7 +77,7 @@ const data = {
         '/images/velvet.jpg',
         '/images/euly.jpg',
       ],
-      price: 20 ,
+      price: 20,
       rating: 4,
       countInStock: 0,
       description:
