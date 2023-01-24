@@ -1,11 +1,14 @@
 import Layout from '@/components/Layout';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Formik } from 'formik';
 
 import * as Yup from 'yup';
 import Link from 'next/link';
 import TextInput from '@/components/TextInput';
 import LoadingButton from '@/components/LoadingButton';
+import { signIn, useSession } from 'next-auth/react';
+import { toast } from 'react-toastify';
+import Router, { useRouter } from 'next/router';
 
 const initialValues = {
   email: '',
@@ -15,11 +18,47 @@ const validationSchema = {
   email: Yup.string().email('Invalid email address').required('Required'),
   password: Yup.string()
     .required('No password provided.')
-    .min(8, 'Password is too short - should be 8 chars minimum.')
-    .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
+    .min(5, 'Password is too short - should be 5 chars minimum.'),
+  // .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
+};
+
+const submitHandler = async (
+  values: { email: string; password: string },
+  { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+) => {
+  try {
+    const result = await signIn('credential', {
+      redirect: false,
+      email: values.email,
+      password: values.password,
+    });
+    if (result?.error) {
+      throw new Error(result.error);
+    }
+  } catch (err: any) {
+    let message =
+      err.response && err.response.data && err.response.data.message
+        ? err.response.data.message
+        : err.message;
+    toast.error(message);
+  } finally {
+    setSubmitting(false);
+    console.log('finally');
+  }
 };
 
 const Login = () => {
+  const { data: session } = useSession();
+
+  const router = useRouter();
+  const { redirect } = router.query;
+
+  useEffect(() => {
+    if (session?.user) {
+      router.push(redirect || '/');
+    }
+  }, [router, session, redirect]);
+
   return (
     <Layout>
       <div className="flex flex-col w-full sm:w-[30rem] overflow-x-none mx-auto ">
@@ -29,12 +68,7 @@ const Login = () => {
           <Formik
             initialValues={initialValues}
             validationSchema={Yup.object(validationSchema)}
-            onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-              }, 4000);
-            }}
+            onSubmit={submitHandler}
           >
             {({ isSubmitting }) => (
               <Form className="w-full">
@@ -53,7 +87,6 @@ const Login = () => {
 
                 {!isSubmitting ? (
                   <button
-                    disabled={isSubmitting}
                     type="submit"
                     className="text-gray-800   rounded-lg text-base px-4 md:px-5 py-2 md:py-2.5  bg-[#b2bc83] hover:bg-[#a2ab78]  shadow-sm hover:shadow-md active:shadow-none  transition duration-300 ease-in-out font-bold w-full 
                    

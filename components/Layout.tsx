@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Footer from './Footer';
 import Header from './Header';
+import { ToastContainer } from 'react-toastify';
 
 const Layout = ({
   title,
@@ -30,7 +31,17 @@ const Layout = ({
           content="width=device-width, initial-scale=1"
         />
       </Head>
+      <ToastContainer
+        position={'top-center'}
+        // limit={1}
+        autoClose={3000}
+        // hideProgressBar={true}
+
+
+      />
+
       <Header />
+
       {children}
       <Footer />
     </div>

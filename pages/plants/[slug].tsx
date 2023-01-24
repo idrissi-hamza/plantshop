@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Specification from '../../components/Specification';
 import { TbArrowBackUp } from 'react-icons/tb';
 import { useStoreContext } from '@/utils/Store';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Plant = () => {
@@ -36,7 +36,7 @@ const Plant = () => {
       if (quantity < 99 && quantity < plant.countInStock) {
         setQuantity(+quantity + 1);
       } else {
-        toast('Out of stock!');
+        toast.info('Out of stock!');
         // setQuantity(quantity - 1);
       }
     }
@@ -154,7 +154,7 @@ const Plant = () => {
             >
               Add to Cart
             </button>
-            <ToastContainer />
+          
           </div>
         </div>
         {/* //a tab to add later */}

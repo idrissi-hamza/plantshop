@@ -5,9 +5,10 @@ import Layout from '@/components/Layout';
 import { BsTrash } from 'react-icons/bs';
 import type { AddedPlant } from '../utils/Store';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 const Cart = () => {
-  // const router = useRouter();
+  const router = useRouter();
   const { state, dispatch } = useStoreContext();
   const {
     cart: { cartItems },
@@ -125,10 +126,15 @@ const Cart = () => {
             <div className="shadow-md p-4 hover:scale-105 transition-all duration-500 ease-in-out group cursor-pointer border">
               <div className="flex flex-col">
                 <div className="pb-3 text-xl">
-                  Subtotal ({cartItemsC.reduce((a, c) => a + c.quantity, 0)}) : $
-                  {cartItemsC.reduce((a, c) => a + c.quantity * c.price, 0)}
+                  Subtotal ({cartItemsC.reduce((a, c) => a + c.quantity, 0)}) :
+                  ${cartItemsC.reduce((a, c) => a + c.quantity * c.price, 0)}
                 </div>
-
+                {/* <button
+                  onClick={() => router.push('login?redirect=/shipping')}
+                  className="bg-[#b2bc83] uppercase text-slate-100 tracking-wider font-bold min-w-full  py-3 mt-5 mb-5  w-full self-start text-center "
+                >
+                  Check Out
+                </button> */}
                 <Link
                   href={'/shipping'}
                   className="bg-[#b2bc83] uppercase text-slate-100 tracking-wider font-bold min-w-full  py-3 mt-5 mb-5  w-full self-start text-center "
