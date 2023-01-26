@@ -2,7 +2,7 @@ import Link from 'next/link';
 import ActiveLink from './ActiveLink';
 
 import { useStoreContext } from '@/utils/Store';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 import { CiShoppingCart, CiUser } from 'react-icons/ci';
 import Cookies from 'js-cookie';
@@ -33,16 +33,49 @@ const Header = () => {
       dispatch({ type: 'CART_RESET' });
       signOut({ callbackUrl: '/login' });
     };
+
+    // This will add event listeners for clicks and scrolls on the document, and check if the target is inside the dropdown component using the ref and contains method. If the target is outside the component, it will set the state of the dropdown to be hidden.
+
+    // const dropdownRef = useRef(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      const handleClick = (event: any) => {
+        if (!dropdownRef?.current?.contains(event.target)) {
+          setIsHidden(true);
+        }
+      };
+      document.addEventListener('click', handleClick);
+      return () => {
+        document.removeEventListener('click', handleClick);
+      };
+    }, [dropdownRef]);
+
+    useEffect(() => {
+      const handleScroll = (event: any) => {
+        if (!dropdownRef?.current?.contains(event.target)) {
+          setIsHidden(true);
+        }
+      };
+      window.addEventListener('scroll', handleScroll);
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }, [dropdownRef]);
+
     return (
-      <div className="relative">
+      <div
+        className="relative"
+        ref={dropdownRef}
+      >
         <button
-          className={`  rounded-lg  px-2  text-center inline-flex items-center font-bold ${
+          className={`  rounded-lg  px-2  text-center  font-bold flex items-center justify-center  ${
             !isHidden && 'text-[#a2ab78]'
           }`}
           type="button"
           onClick={() => setIsHidden((prev) => !prev)}
         >
-          <CiUser className="text-3xl font-bold" />
+          <CiUser className="text-2xl font-bold" />
         </button>
         {/* <!-- Dropdown menu --> */}
         <div
@@ -50,18 +83,18 @@ const Header = () => {
             isHidden ? 'hidden' : 'block'
           }`}
         >
-          <ul className="py-2  text-gray-700 dark:text-gray-200">
+          <ul className="py-2  text-gray-700  bg-[#fffdf4]">
             {navLinks.map((link) => (
               <li
                 key={link.id}
-                className="block px-4 py-2 hover:bg-gray-100  cursor-pointer"
+                className="block px-4 py-2 hover:bg-[rgba(177,188,131,0.4)]  cursor-pointer"
                 onClick={() => setIsHidden(true)}
               >
                 <Link href={link.link}>{link.title}</Link>
               </li>
             ))}
             <li
-              className="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              className="block px-4 py-2 hover:bg-[rgba(177,188,131,0.4)] cursor-pointer"
               onClick={handleLogout}
             >
               logout
