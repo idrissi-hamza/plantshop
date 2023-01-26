@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Footer from './Footer';
 import Header from './Header';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Layout = ({
   title,
@@ -17,7 +18,7 @@ const Layout = ({
   return (
     <div className="min-h-screen flex flex-col max-w-8xl mx-auto ">
       <Head>
-        <title>{title ? `${title} - Green Shop ` : 'Green Shop'}</title>
+        <title>{title ? `${title} - Green Shop` : 'Green Shop'}</title>
         <meta
           name="description"
           content={description}
@@ -31,17 +32,12 @@ const Layout = ({
           content="width=device-width, initial-scale=1"
         />
       </Head>
-      <ToastContainer
-        position={'top-center'}
-        // limit={1}
-        autoClose={3000}
-        // hideProgressBar={true}
-
-
-      />
 
       <Header />
-
+      <ToastContainer
+        position={'top-center'}
+        autoClose={3000}
+      />
       {children}
       <Footer />
     </div>

@@ -10,43 +10,6 @@ import { signIn, useSession } from 'next-auth/react';
 import { toast } from 'react-toastify';
 import Router, { useRouter } from 'next/router';
 
-const initialValues = {
-  email: '',
-  password: '',
-};
-const validationSchema = {
-  email: Yup.string().email('Invalid email address').required('Required'),
-  password: Yup.string()
-    .required('No password provided.')
-    .min(5, 'Password is too short - should be 5 chars minimum.'),
-  // .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
-};
-
-const submitHandler = async (
-  values: { email: string; password: string },
-  { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-) => {
-  try {
-    const result = await signIn('credential', {
-      redirect: false,
-      email: values.email,
-      password: values.password,
-    });
-    if (result?.error) {
-      throw new Error(result.error);
-    }
-  } catch (err: any) {
-    let message =
-      err.response && err.response.data && err.response.data.message
-        ? err.response.data.message
-        : err.message;
-    toast.error(message);
-  } finally {
-    setSubmitting(false);
-    console.log('finally');
-  }
-};
-
 const Login = () => {
   const { data: session } = useSession();
 
@@ -58,6 +21,42 @@ const Login = () => {
       router.push(redirect || '/');
     }
   }, [router, session, redirect]);
+
+  const initialValues = {
+    email: '',
+    password: '',
+  };
+  const validationSchema = {
+    email: Yup.string().email('Invalid email address').required('Required'),
+    password: Yup.string()
+      .required('No password provided.')
+      .min(5, 'Password is too short - should be 5 chars minimum.'),
+    // .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
+  };
+
+  const submitHandler = async (
+    { email, password }: { email: string; password: string },
+    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+  ) => {
+    try {
+      const result = await signIn('credentials', {
+        redirect: false,
+        email,
+        password,
+      });
+      if (result?.error) {
+        throw new Error(result.error);
+      }
+    } catch (err: any) {
+      let message =
+        err.response && err.response.data && err.response.data.message
+          ? err.response.data.message
+          : err.message;
+      toast.error(message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <Layout>
@@ -97,7 +96,6 @@ const Login = () => {
                 ) : (
                   <LoadingButton />
                 )}
-                {/* {!isSubmitting ? 'Log in' : 'Connecting...'} */}
               </Form>
             )}
           </Formik>
@@ -118,5 +116,4 @@ const Login = () => {
     </Layout>
   );
 };
-
 export default Login;

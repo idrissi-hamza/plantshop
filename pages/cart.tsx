@@ -129,18 +129,18 @@ const Cart = () => {
                   Subtotal ({cartItemsC.reduce((a, c) => a + c.quantity, 0)}) :
                   ${cartItemsC.reduce((a, c) => a + c.quantity * c.price, 0)}
                 </div>
-                {/* <button
+                <button
                   onClick={() => router.push('login?redirect=/shipping')}
                   className="bg-[#b2bc83] uppercase text-slate-100 tracking-wider font-bold min-w-full  py-3 mt-5 mb-5  w-full self-start text-center "
                 >
                   Check Out
-                </button> */}
-                <Link
+                </button>
+                {/* <Link
                   href={'/shipping'}
                   className="bg-[#b2bc83] uppercase text-slate-100 tracking-wider font-bold min-w-full  py-3 mt-5 mb-5  w-full self-start text-center "
                 >
                   Check Out
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>
