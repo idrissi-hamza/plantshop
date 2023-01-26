@@ -87,9 +87,7 @@ const Login = () => {
                 {!isSubmitting ? (
                   <button
                     type="submit"
-                    className="text-gray-800   rounded-lg text-base px-4 md:px-5 py-2 md:py-2.5  bg-[#b2bc83] hover:bg-[#a2ab78]  shadow-sm hover:shadow-md active:shadow-none  transition duration-300 ease-in-out font-bold w-full 
-                   
-                   mb-6 "
+                    className="text-gray-800   rounded-lg text-base px-4 md:px-5 py-2 md:py-2.5  bg-[#b2bc83] hover:bg-[#a2ab78]  shadow-sm hover:shadow-md active:shadow-none  transition duration-300 ease-in-out font-bold w-full mb-6 "
                   >
                     Log in
                   </button>

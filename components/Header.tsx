@@ -3,10 +3,11 @@ import ActiveLink from './ActiveLink';
 
 import { useStoreContext } from '@/utils/Store';
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
-
+import { signOut, useSession } from 'next-auth/react';
+import { CiShoppingCart, CiUser } from 'react-icons/ci';
+import Cookies from 'js-cookie';
 const Header = () => {
-  const { state } = useStoreContext();
+  const { state, dispatch } = useStoreContext();
   const { cart } = state;
   const [cartItemsCount, setCartItemsCount] = useState(0);
   useEffect(() => {
@@ -16,7 +17,61 @@ const Header = () => {
   }, [cart.cartItems]);
 
   const { status, data: session } = useSession();
-  
+
+  //links nav bar
+  const navLinks = [
+    { id: '1wew', link: '/profile', title: 'Profile' },
+    { id: '2ref', link: '/history', title: 'History' },
+    // { id: '3csc', link: '', title: 'logout' },
+  ];
+
+  const Dropdown = () => {
+    const [isHidden, setIsHidden] = useState(true);
+    const handleLogout = () => {
+      setIsHidden(true);
+      Cookies.remove('cart');
+      dispatch({ type: 'CART_RESET' });
+      signOut({ callbackUrl: '/login' });
+    };
+    return (
+      <div className="relative">
+        <button
+          className={`  rounded-lg  px-2  text-center inline-flex items-center font-bold ${
+            !isHidden && 'text-[#a2ab78]'
+          }`}
+          type="button"
+          onClick={() => setIsHidden((prev) => !prev)}
+        >
+          <CiUser className="text-3xl font-bold" />
+        </button>
+        {/* <!-- Dropdown menu --> */}
+        <div
+          className={`z-10 bg-white divide-y divide-gray-300 rounded shadow-md  dark:bg-gray-700 absolute -left-6 ${
+            isHidden ? 'hidden' : 'block'
+          }`}
+        >
+          <ul className="py-2  text-gray-700 dark:text-gray-200">
+            {navLinks.map((link) => (
+              <li
+                key={link.id}
+                className="block px-4 py-2 hover:bg-gray-100  cursor-pointer"
+                onClick={() => setIsHidden(true)}
+              >
+                <Link href={link.link}>{link.title}</Link>
+              </li>
+            ))}
+            <li
+              className="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              onClick={handleLogout}
+            >
+              logout
+            </li>
+          </ul>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <header className="flex sm:flex-row flex-col justify-between items-center h-auto sm:h-16 px-8 shadow-md w-full bg-[#fffdf4]   ">
       <style jsx>{`
@@ -24,7 +79,7 @@ const Header = () => {
           text-decoration: none;
         }
         .active {
-          color: #b2bc83;
+          color: #a2ab78;
           transition: all 0.2s ease-in;
           font-weight: bold;
         }
@@ -42,16 +97,16 @@ const Header = () => {
         </Link>
       </div>
       <nav>
-        <ul className="flex items-center justify-center sm:flex-row flex-col text-center  my-5 sm:my-0 gap-4">
+        <ul className="flex items-center justify-center sm:flex-row flex-col text-center  my-5 sm:my-0 gap-6">
           <li className="transition duration-300 ease-in-out ">
             <ActiveLink
               activeClassName="active"
               href="/cart"
             >
-              <a className=" block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 relative">
-                Cart
+              <a className=" block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 relative text-3xl">
+                <CiShoppingCart />
                 {cartItemsCount > 0 && (
-                  <span className="ml-1 rounded-full bg-red-500  text-xs text-white font-bold absolute aspect-square w-5 left-5 -top-2 flex items-center justify-center animate-bounce">
+                  <span className="ml-1 rounded-full bg-red-500  text-xs text-white font-bold absolute aspect-square w-4 left-3 -top-1 flex items-center justify-center animate-bounce">
                     {cartItemsCount}
                   </span>
                 )}
@@ -62,14 +117,15 @@ const Header = () => {
             {status === 'loading' ? (
               'loading'
             ) : session?.user ? (
-              session.user.name
+              // session.user.name
+              <Dropdown />
             ) : (
               <ActiveLink
-                activeClassName="active"
+                activeClassName="activen "
                 href="/login"
               >
-                <a className=" block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0">
-                  Login
+                <a className=" bg-[#b2bc83] hover:bg-[#a2ab78] rounded-md  block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  ">
+                  login
                 </a>
               </ActiveLink>
             )}

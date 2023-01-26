@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, Dispatch, useContext, useEffect } from 'react';
+import React, { createContext, useReducer, Dispatch, useContext } from 'react';
 import type { Plant } from './data';
 import Cookies from 'js-cookie';
 // import Cookies from 'js-cookie';
@@ -19,7 +19,8 @@ const initialState: State = {
 
 type Action =
   | { type: 'CART_ADD_ITEM'; payload: AddedPlant }
-  | { type: 'CART_REMOVE_ITEM'; payload: AddedPlant };
+  | { type: 'CART_REMOVE_ITEM'; payload: AddedPlant }
+  | { type: 'CART_RESET' };
 
 type StoreDispatch = Dispatch<Action>;
 
@@ -50,6 +51,16 @@ export const storeReducer = (state: State, action: Action) => {
       Cookies.set('cart', JSON.stringify({ ...state.cart, cartItems }));
       return { ...state, cart: { ...state.cart, cartItems } };
     }
+
+    case 'CART_RESET':
+      return {
+        ...state,
+        cart: {
+          cartItems: [],
+          shippingAddress: { location: {} },
+          paymentMethod: '',
+        },
+      };
 
     default:
       return state;
