@@ -18,7 +18,9 @@ const Login = () => {
 
   useEffect(() => {
     if (session?.user) {
-      router.push(redirect || '/');
+      router.push(
+        Array.isArray(redirect) ? redirect.join('/') : redirect || '/'
+      );
     }
   }, [router, session, redirect]);
 
@@ -44,9 +46,6 @@ const Login = () => {
         email,
         password,
       });
-      if (result?.error) {
-        throw new Error(result.error);
-      }
     } catch (err: any) {
       let message =
         err.response && err.response.data && err.response.data.message
