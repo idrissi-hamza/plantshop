@@ -7,20 +7,32 @@ import Cookies from 'js-cookie';
 export type AddedPlant = Plant & {
   quantity: number;
 };
-
+export type ShippingAdressType = {
+  fullName: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+};
 type State = {
-  cart: { cartItems: AddedPlant[] };
+  cart: {
+    cartItems: AddedPlant[];
+    shippingAddress: ShippingAdressType;
+  };
 };
 
 const cartCookie = Cookies.get('cart');
 const initialState: State = {
-  cart: cartCookie ? JSON.parse(cartCookie) : { cartItems: [] },
+  cart: cartCookie
+    ? JSON.parse(cartCookie)
+    : { cartItems: [], shippingAddress: {} },
 };
 
 type Action =
   | { type: 'CART_ADD_ITEM'; payload: AddedPlant }
   | { type: 'CART_REMOVE_ITEM'; payload: AddedPlant }
-  | { type: 'CART_RESET' };
+  | { type: 'CART_RESET' }
+  | { type: 'SAVE_SHIPPING_ADDRESS'; payload: ShippingAdressType };
 
 type StoreDispatch = Dispatch<Action>;
 
@@ -57,8 +69,17 @@ export const storeReducer = (state: State, action: Action) => {
         ...state,
         cart: {
           cartItems: [],
-          shippingAddress: { location: {} },
-          paymentMethod: '',
+          shippingAddress: {},
+        },
+      };
+
+    case 'SAVE_SHIPPING_ADDRESS':
+      const shippingAddress = action.payload;
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          shippingAddress
         },
       };
 
