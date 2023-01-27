@@ -15,14 +15,22 @@ export default NextAuth({
       return token;
     },
     async session({ session, token }) {
-      if (token?._id) session.user._id = token._id;
-      if (token?.isAdmin) session.user.isAdmin = token.isAdmin;
+      if (token?._id && session.user) (session.user as any)._id = token._id;
+      if (token?.isAdmin && session.user)
+        (session.user as any).isAdmin = token.isAdmin;
       return session;
     },
   },
   providers: [
     CredentialsProvider({
+      credentials: {
+        email: { label: 'Email', type: 'text' },
+        password: { label: 'Password', type: 'password' },
+      },
       async authorize(credentials) {
+        if (!credentials) {
+          throw new Error('email and password are required');
+        }
         await db.connect();
         const user = await User.findOne({
           email: credentials.email,
