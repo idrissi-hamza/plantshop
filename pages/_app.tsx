@@ -3,7 +3,6 @@ import type { AppProps } from 'next/app';
 import { Nunito } from '@next/font/google';
 import { StoreProvider } from '@/utils/Store';
 import { SessionProvider, useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
 
 const nunito = Nunito({
   subsets: ['latin'],
@@ -18,31 +17,24 @@ export default function App({
     <SessionProvider session={session}>
       <StoreProvider>
         <div className={`${nunito.variable} font-sans`}>
-          {Component.auth ? (
-            <Auth>
-              <Component {...pageProps} />
-            </Auth>
-          ) : (
-            <Component {...pageProps} />
-          )}
+          <Component {...pageProps} />
         </div>
       </StoreProvider>
     </SessionProvider>
   );
 }
 
-const Auth = ({ children }) => {
-  const router = useRouter();
-  const { status } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push('/unauthorized?message=login required');
-    },
-  });
-  if (status === 'loading') {
-    return <div>Loading...</div>;
-  }
+// const Auth = ({ children }) => {
+//   const router = useRouter();
+//   const { status } = useSession({
+//     required: true,
+//     onUnauthenticated() {
+//       router.push('/unauthorized?message=login required');
+//     },
+//   });
+//   if (status === 'loading') {
+//     return <div>Loading...</div>;
+//   }
 
-  return children;
-};
-
+//   return children;
+// };

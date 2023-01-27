@@ -8,6 +8,9 @@ import { ShippingAdressType, useStoreContext } from '@/utils/Store';
 import LoadingButton from '@/components/LoadingButton';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
+import { useSession } from 'next-auth/react';
+import Login from './login';
+import Unauthorized from '@/components/Unauthorized';
 
 const Shipping = () => {
   const { state, dispatch } = useStoreContext();
@@ -15,19 +18,8 @@ const Shipping = () => {
   const { shippingAddress } = cart;
   const router = useRouter();
 
-  // const initialValues: ShippingAdressType = {
-  // fullName: '' || shippingAddress?.fullName,
-  // address: ""||shippingAddress?.address,
-  // city: shippingAddress?.city,
-  // postalCode: shippingAddress?.postalCode,
-  // country: shippingAddress?.country,
-  //   fullName: '',
-  //   address: '',
-  //   city: '',
-  //   postalCode: '',
-  //   country: '',
-  // };
-  // useE;
+  const { data: session } = useSession();
+
   const [initialValues, setInitialValues] = useState({
     fullName: '',
     address: '',
@@ -80,54 +72,56 @@ const Shipping = () => {
 
   return (
     <Layout>
-      <div className="min-h-[60vh] flex flex-col p-20">
-        <Timeline activeStep={1} />
-        <div className="flex flex-col w-full sm:w-[30rem] overflow-x-none mx-auto">
-          <Formik
-            initialValues={initialValues}
-            validationSchema={Yup.object(validationSchema)}
-            onSubmit={submitHandler}
-          >
-            {({ isSubmitting }) => (
-              <Form className="w-full">
-                <div className="flex flex-col -space-y-2 pb-10 gap-6">
-                  {[
-                    { fullName: 'Full Name*' },
-                    { address: 'Address*' },
-                    { city: 'City' },
-                    { postalCode: 'Postal Code' },
-                    { country: 'Country' },
-                  ]
-                    .flatMap((object) => Object.entries(object))
-                    .map(([key, val], i) => (
-                      <TextInput
-                        key={i}
-                        label={val}
-                        name={key}
-                        type="text"
-                      />
-                    ))}
-                </div>
+      {session ? (
+        <div className=" flex flex-col md:px-32 px-14 pt-16">
+          <Timeline activeStep={1} />
+          <div className="flex flex-col w-full sm:w-[30rem] overflow-x-none mx-auto">
+            <Formik
+              initialValues={initialValues}
+              validationSchema={Yup.object(validationSchema)}
+              onSubmit={submitHandler}
+            >
+              {({ isSubmitting }) => (
+                <Form className="w-full">
+                  <div className="flex flex-col -space-y-2 pb-10 gap-6">
+                    {[
+                      { fullName: 'Full Name*' },
+                      { address: 'Address*' },
+                      { city: 'City' },
+                      { postalCode: 'Postal Code' },
+                      { country: 'Country' },
+                    ]
+                      .flatMap((object) => Object.entries(object))
+                      .map(([key, val], i) => (
+                        <TextInput
+                          key={i}
+                          label={val}
+                          name={key}
+                          type="text"
+                        />
+                      ))}
+                  </div>
 
-                {!isSubmitting ? (
-                  <button
-                    type="submit"
-                    className="text-gray-800   rounded-lg text-base px-4 md:px-5 py-2 md:py-2.5  bg-[#b2bc83] hover:bg-[#a2ab78]  shadow-sm hover:shadow-md active:shadow-none  transition duration-300 ease-in-out font-bold w-full mb-6 "
-                  >
-                    Log in
-                  </button>
-                ) : (
-                  <LoadingButton />
-                )}
-              </Form>
-            )}
-          </Formik>
+                  {!isSubmitting ? (
+                    <button
+                      type="submit"
+                      className="text-gray-800   rounded-lg text-base px-4 md:px-5 py-2 md:py-2.5  bg-[#b2bc83] hover:bg-[#a2ab78]  shadow-sm hover:shadow-md active:shadow-none  transition duration-300 ease-in-out font-bold w-full mb-6 "
+                    >
+                      Log in
+                    </button>
+                  ) : (
+                    <LoadingButton />
+                  )}
+                </Form>
+              )}
+            </Formik>
+          </div>
         </div>
-      </div>
+      ) : (
+        <Unauthorized />
+      )}
     </Layout>
   );
 };
 
 export default Shipping;
-
-Shipping.auth = true;

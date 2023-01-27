@@ -59,8 +59,8 @@ const Login = () => {
 
   return (
     <Layout>
-      <div className="flex flex-col w-full sm:w-[30rem] overflow-x-none mx-auto ">
-        <div className="p-5 sm:px-10 mt-14 ">
+      <div className="flex flex-col w-full sm:w-[30rem] overflow-x-none mx-auto flex-1 place-content-center  mt-10">
+        <div className="p-5 sm:px-10 ">
           <h3 className="text-3xl font-bold text-center pb-6">Log in</h3>
 
           <Formik
@@ -70,14 +70,14 @@ const Login = () => {
           >
             {({ isSubmitting }) => (
               <Form className="w-full">
-                <div className="flex flex-col -space-y-2 pb-10 ">
+                <div className="flex flex-col -space-y-2 pb-10 gap-6">
                   <TextInput
-                    label="Email adress"
+                    label="Email address*"
                     name="email"
                     type="text"
                   />
                   <TextInput
-                    label="Password"
+                    label="Password*"
                     name="password"
                     type="password"
                   />
