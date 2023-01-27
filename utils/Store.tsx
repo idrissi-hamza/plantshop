@@ -79,7 +79,7 @@ export const storeReducer = (state: State, action: Action) => {
         ...state,
         cart: {
           ...state.cart,
-          shippingAddress
+          shippingAddress,
         },
       };
 
@@ -89,7 +89,10 @@ export const storeReducer = (state: State, action: Action) => {
 };
 
 export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
-  const [state, dispatch] = useReducer(storeReducer, initialState);
+  const [state, dispatch] = useReducer<React.Reducer<State, Action>>(
+    storeReducer as React.Reducer<State, Action>,
+    initialState as State
+  );
 
   console.log('StoreContext state:', state);
   return (
