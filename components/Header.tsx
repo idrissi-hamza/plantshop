@@ -4,8 +4,9 @@ import ActiveLink from './ActiveLink';
 import { useStoreContext } from '@/utils/Store';
 import { useState, useEffect, useRef } from 'react';
 import { signOut, useSession } from 'next-auth/react';
-import { CiShoppingCart, CiUser } from 'react-icons/ci';
+import { TfiUser, TfiShoppingCartFull } from 'react-icons/tfi';
 import Cookies from 'js-cookie';
+
 const Header = () => {
   const { state, dispatch } = useStoreContext();
   const { cart } = state;
@@ -75,7 +76,7 @@ const Header = () => {
           type="button"
           onClick={() => setIsHidden((prev) => !prev)}
         >
-          <CiUser className="text-2xl font-bold" />
+          <TfiUser className="text-xl font-bold" />
         </button>
         {/* <!-- Dropdown menu --> */}
         <div
@@ -136,8 +137,8 @@ const Header = () => {
               activeClassName="active"
               href="/cart"
             >
-              <a className=" block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 relative text-3xl">
-                <CiShoppingCart />
+              <a className=" block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 relative ">
+                <TfiShoppingCartFull className="text-3xl" />
                 {cartItemsCount > 0 && (
                   <span className="ml-1 rounded-full bg-red-500  text-xs text-white font-bold absolute aspect-square w-4 left-3 -top-1 flex items-center justify-center animate-bounce">
                     {cartItemsCount}
