@@ -6,6 +6,7 @@ import { BsTrash } from 'react-icons/bs';
 import type { AddedPlant } from '../utils/Store';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 const Cart = () => {
   const router = useRouter();
@@ -39,6 +40,15 @@ const Cart = () => {
       updateCartHandler(item, +item.quantity - 1);
     } else {
       removeItemHandler(item);
+    }
+  };
+
+  const { data: session } = useSession();
+  const handleClick = () => {
+    if (session?.user) {
+      router.replace('/shipping');
+    } else {
+      router.push('/login?redirect=/shipping');
     }
   };
   return (
@@ -130,7 +140,7 @@ const Cart = () => {
                   ${cartItemsC.reduce((a, c) => a + c.quantity * c.price, 0)}
                 </div>
                 <button
-                  onClick={() => router.push('login?redirect=/shipping')}
+                  onClick={handleClick}
                   className="bg-[#b2bc83] uppercase text-slate-100 tracking-wider font-bold min-w-full  py-3 mt-5 mb-5  w-full self-start text-center "
                 >
                   Check Out
