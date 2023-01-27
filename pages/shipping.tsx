@@ -21,11 +21,11 @@ const Shipping = () => {
   const { data: session } = useSession();
 
   const [initialValues, setInitialValues] = useState({
-    fullName: '',
-    address: '',
-    city: '',
-    postalCode: '',
-    country: '',
+    fullName: shippingAddress?.fullName || '',
+    address: shippingAddress?.address || '',
+    city: shippingAddress?.city || '',
+    postalCode: shippingAddress?.postalCode || '',
+    country: shippingAddress?.country || "",
   });
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const Shipping = () => {
       postalCode: shippingAddress?.postalCode,
       country: shippingAddress?.country,
     });
-  }, [shippingAddress]);
+  }, [shippingAddress?.address, shippingAddress?.city, shippingAddress?.country, shippingAddress?.fullName, shippingAddress?.postalCode]);
   const validationSchema = {
     fullName: Yup.string().required('Required'),
     address: Yup.string().required('Required'),
@@ -107,7 +107,7 @@ const Shipping = () => {
                       type="submit"
                       className="text-gray-800   rounded-lg text-base px-4 md:px-5 py-2 md:py-2.5  bg-[#b2bc83] hover:bg-[#a2ab78]  shadow-sm hover:shadow-md active:shadow-none  transition duration-300 ease-in-out font-bold w-full mb-6 "
                     >
-                      Log in
+                      Go to Payment
                     </button>
                   ) : (
                     <LoadingButton />
