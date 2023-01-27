@@ -1,6 +1,6 @@
 import { Field } from 'formik';
-import { FaCcPaypal } from 'react-icons/fa';
-import { CiCreditCard1, CiDeliveryTruck } from 'react-icons/ci';
+import { SlPaypal,SlCreditCard } from 'react-icons/sl';
+import { BsCashCoin } from 'react-icons/bs';
 const PayRadio = ({ label, options, ...props }: any) => {
   return (
     <div className="mb-5  w-full font-display flex flex-col gap-4 ">
@@ -35,16 +35,16 @@ const RadioButton = ({ field, form, ...props }: any) => {
         type="radio"
         {...field}
         {...props}
-        class="hidden peer"
+        className="hidden peer"
         required
       />
 
       <div className="inline-flex items-center justify-between gap-10 w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:peer-checked:text-blue-500 peer-checked:border-blue-600s peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 peer-checked:shadow-xl ">
         <span className="w-full text-lg font-semibold">{props.label} </span>
-        {props.value === 'paypal' && <FaCcPaypal className="text-4xl" />}
-        {props.value === 'stripe' && <CiCreditCard1 className="text-5xl" />}
+        {props.value === 'paypal' && <SlPaypal className="text-4xl"   />}
+        {props.value === 'stripe' && <SlCreditCard className="text-5xl"   />}
         {props.value === 'cashOnDelivery' && (
-          <CiDeliveryTruck className="text-5xl" />
+          <BsCashCoin className="text-5xl"   />
         )}
       </div>
     </label>
