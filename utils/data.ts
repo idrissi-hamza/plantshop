@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 
 export type PlantType = {
+  _id?: string;
   name: string;
   slug: string;
   family: string;
