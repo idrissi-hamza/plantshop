@@ -18,6 +18,12 @@ const plantSchema = new mongoose.Schema(
   }
 );
 
-const Plant = mongoose.models.Plant|| mongoose.model('plant', plantSchema);
+const Plant = mongoose.models.Plant || mongoose.model('plant', plantSchema);
+// let Plant;
+// if (!mongoose.models.Plant) {
+//   Plant = mongoose.model('Plant', plantSchema);
+// } else {
+//   Plant = mongoose.models.Plant;
+// }
 
 export default Plant;
