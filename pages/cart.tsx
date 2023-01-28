@@ -37,7 +37,7 @@ const Cart = () => {
     if (item.quantity < item.countInStock) {
       updateCartHandler(item, +item.quantity + 1);
     } else {
-      toast.error('Sorry. Product is out of stock');
+      toast.info('Sorry. Product is out of stock');
     }
   };
 
