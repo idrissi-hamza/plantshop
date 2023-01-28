@@ -7,6 +7,7 @@ import type { AddedPlant } from '../utils/Store';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import {  toast } from 'react-toastify';
 
 const Cart = () => {
   const router = useRouter();
@@ -30,17 +31,24 @@ const Cart = () => {
       payload: { ...item, quantity: +qty },
     });
   };
+
+  //+ button
   const addToCartHandler = (item: AddedPlant) => {
     if (item.quantity < item.countInStock) {
       updateCartHandler(item, +item.quantity + 1);
+    } else {
+      toast.error('Sorry. Product is out of stock');
     }
   };
+
+  //- button
   const removeFromCartHandler = (item: AddedPlant) => {
     if (item.quantity > 1) {
       updateCartHandler(item, +item.quantity - 1);
-    } else {
-      removeItemHandler(item);
     }
+    // else {
+    //   removeItemHandler(item);
+    // }
   };
 
   const { data: session } = useSession();
@@ -104,7 +112,7 @@ const Cart = () => {
                           <input
                             type={'number'}
                             value={item.quantity}
-                            className="w-6 ppearance-none disabled flex justify-center items-center "
+                            className=" hidden  "
                             disabled
                             onChange={(e) =>
                               updateCartHandler(item, +e.target.value)
@@ -114,6 +122,7 @@ const Cart = () => {
 
                             // step={1}
                           />
+                          <span>{item.quantity}</span>
                           <button
                             className="font-bold text-lg w-6 h-6 rounded-full bg-[#e8e6da] flex items-center justify-center hover:bg-[#e8e6da5e] transition-all duration-300 ease-in-out"
                             onClick={() => addToCartHandler(item)}

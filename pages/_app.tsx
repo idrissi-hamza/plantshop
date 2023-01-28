@@ -3,6 +3,8 @@ import type { AppProps } from 'next/app';
 import { Nunito } from '@next/font/google';
 import { StoreProvider } from '@/utils/Store';
 import { SessionProvider, useSession } from 'next-auth/react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const nunito = Nunito({
   subsets: ['latin'],
@@ -18,6 +20,8 @@ export default function App({
       <StoreProvider>
         <div className={`${nunito.variable} font-sans`}>
           <Component {...pageProps} />
+          <ToastContainer />
+
         </div>
       </StoreProvider>
     </SessionProvider>
