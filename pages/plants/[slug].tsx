@@ -1,33 +1,28 @@
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
-import data, { Plant } from '../../utils/data';
+import { PlantType } from '../../utils/data';
 import Link from 'next/link';
 import Image from 'next/image';
 import Specification from '../../components/Specification';
 import { TbArrowBackUp } from 'react-icons/tb';
 import { useStoreContext } from '@/utils/Store';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import db from '@/utils/db';
+import Plant from '@/models/Plant';
 
-const Plant = () => {
+const PlantItem = (props: { plant: PlantType }) => {
   const { state, dispatch } = useStoreContext();
   const [img, setImg] = useState('');
-  const [plant, setPlant] = useState<Plant | null>(null);
+  const [plant, setPlant] = useState<PlantType | null>(null);
 
-  const router = useRouter();
   useEffect(() => {
-    if (router.isReady) {
-      const { slug } = router.query;
-      // console.log(slug);
-      let plant = data.plants.find((plant) => plant.slug === slug);
-      // console.log(plant);
-      if (plant) {
-        setPlant(plant);
-        setImg(plant.image[0]);
-      }
+    const { plant } = props;
+    if (plant) {
+      setPlant(plant);
+      setImg(plant.image[0]);
     }
-  }, [router.isReady]);
+  }, [props]);
 
   const [quantity, setQuantity] = useState(1);
 
@@ -154,7 +149,6 @@ const Plant = () => {
             >
               Add to Cart
             </button>
-          
           </div>
         </div>
         {/* //a tab to add later */}
@@ -164,8 +158,26 @@ const Plant = () => {
       </div>
     </Layout>
   ) : (
-    <div>not found</div>
+    <Layout>
+      <div className="flex-1 text-3xl  flex items-center justify-center">
+        Product not found
+      </div>
+    </Layout>
   );
 };
 
-export default Plant;
+export default PlantItem;
+
+export async function getServerSideProps(context: any) {
+  const { params } = context;
+  const { slug } = params;
+
+  await db.connect();
+  const plant = await Plant.findOne({ slug }).lean();
+  await db.disconnect();
+  return {
+    props: {
+      plant: plant ? db.convertDocToObj(plant) : null,
+    },
+  };
+}

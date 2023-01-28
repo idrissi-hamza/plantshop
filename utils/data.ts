@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 
-export type Plant = {
+export type PlantType = {
   name: string;
   slug: string;
   family: string;
@@ -41,6 +41,7 @@ const data = {
       ],
       price: 10,
       rating: 4,
+      numReviews: 2,
       countInStock: 10,
       description:
         'The Velvet Baby Plant Set is the perfect choice for Aroid enthusiasts who can’t help but fall for soft, velvety foliage that looks as luxurious as it feels!',
@@ -60,6 +61,7 @@ const data = {
       ],
       price: 25,
       rating: 4.5,
+      numReviews: 2,
       countInStock: 9,
       description:
         'Eulychnia Castanea f. Varispiralis has a columnar stem that consist of tubercles which grow in a characteristic, whirly spiral way. It grows long brown spines between the separate tubercles. it is a super fun cactus which has a handsome, architectural appeal!',
@@ -79,6 +81,7 @@ const data = {
       ],
       price: 20,
       rating: 4,
+      numReviews: 5,
       countInStock: 0,
       description:
         'The Velvet Baby Plant Set is the perfect choice for Aroid enthusiasts who can’t help but fall for soft, velvety foliage that looks as luxurious as it feels!',
@@ -97,7 +100,8 @@ const data = {
         '/images/euly.jpg',
       ],
       price: 25,
-      rating: 4,
+      rating: 4.3,
+      numReviews: 2,
       countInStock: 10,
       description:
         'The Velvet Baby Plant Set is the perfect choice for Aroid enthusiasts who can’t help but fall for soft, velvety foliage that looks as luxurious as it feels!',

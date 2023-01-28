@@ -1,10 +1,10 @@
 import React, { createContext, useReducer, Dispatch, useContext } from 'react';
-import type { Plant } from './data';
+import type { PlantType } from './data';
 import Cookies from 'js-cookie';
 // import Cookies from 'js-cookie';
 //type of createContext
 
-export type AddedPlant = Plant & {
+export type AddedPlant = PlantType & {
   quantity: number;
 };
 export type ShippingAdressType = {
