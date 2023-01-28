@@ -10,38 +10,67 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import db from '@/utils/db';
 import Plant from '@/models/Plant';
+import axios from 'axios';
 
 const PlantItem = (props: { plant: PlantType }) => {
   const { state, dispatch } = useStoreContext();
+  const [quantity, setQuantity] = useState(1);
+
   const [img, setImg] = useState('');
+
   const [plant, setPlant] = useState<PlantType | null>(null);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const { plant } = props;
-    if (plant) {
-      setPlant(plant);
-      setImg(plant.image[0]);
-    }
+    const fetchData = async () => {
+      setLoading(true);
+      // console.log('running');
+      try {
+        // const { data } = await axios.get(`/api/plants/${plant._id}`);
+        setPlant(plant);
+        setImg(plant.image[0]);
+        setLoading(false);
+      } catch (err) {
+        setError(true);
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, [props]);
 
-  const [quantity, setQuantity] = useState(1);
-
-  const handleAddQuantity = () => {
+  //+ button - handle inside button
+  const handleAddQuantity = async () => {
     if (plant) {
-      if (quantity < 99 && quantity < plant.countInStock) {
-        setQuantity(+quantity + 1);
-      } else {
-        toast.info('Out of stock!');
-        // setQuantity(quantity - 1);
+      // const { data } = await axios.get(`/api/plants/${plant._id}`);
+      const { data } = await axios.get(`/api/plants/${plant._id}`);
+
+      if (data.countInStock < quantity) {
+        return toast.error('Sorry. Product is out of stock');
       }
+
+      // if (quantity < 99 && quantity < data.countInStock) {
+      setQuantity(+quantity + 1);
+      // }
     }
   };
-  const addToCartHandler = () => {
+  const addToCartHandler = async () => {
     if (plant) {
+      // const { data } = await axios.get(`/api/plants/${plant._id}`);
+
       const existItem = state.cart.cartItems.find(
         (item) => item.slug === plant.slug
       );
       const newQuantity = existItem ? existItem.quantity + quantity : quantity;
+
+      ///check if the quntity in still on stock before submitting add to cart
+      //double check
+      const { data } = await axios.get(`/api/plants/${plant._id}`);
+
+      if (data.countInStock < quantity) {
+        return toast.error('Sorry. Product is out of stock');
+      }
 
       dispatch({
         type: 'CART_ADD_ITEM',
@@ -49,7 +78,38 @@ const PlantItem = (props: { plant: PlantType }) => {
       });
     }
   };
-  return plant ? (
+
+  if (loading) {
+    return (
+      <Layout>
+        <div className="flex-1 text-3xl  flex items-center justify-center">
+          ...Loading
+        </div>
+      </Layout>
+    );
+  }
+
+  if (!plant) {
+    return (
+      <Layout>
+        <div className="flex-1 text-3xl  flex items-center justify-center">
+          No Plant found
+        </div>
+      </Layout>
+    );
+  }
+
+  if (error) {
+    return (
+      <Layout>
+        <div className="flex-1 text-3xl  flex items-center justify-center">
+          AN Error Ocuured
+        </div>
+      </Layout>
+    );
+  }
+
+  return (
     <Layout
       title={plant.name}
       description={plant.description}
@@ -95,7 +155,9 @@ const PlantItem = (props: { plant: PlantType }) => {
             </div>
           </div>
           <div className=" flex flex-col items-start  bg-red-40     text-[#3a3b4a]  pt-">
-            <h1 className="text-4xl leading-10 pt-10 ">{plant.name}</h1>
+            <h1 className="text-4xl leading-10 pt-10 ">
+              {plant.name} {plant.countInStock}
+            </h1>
             <h2 className="text-3xl leading-5 mt-10">${plant.price}</h2>
             <p className="my-10">{plant.description}</p>
             <div className="mx-auto">
@@ -107,7 +169,7 @@ const PlantItem = (props: { plant: PlantType }) => {
             <div className="mt-12 mb-8 flex space-x-8 items-center justify-center">
               <span>Quantity</span>
               <button
-                className="font-bold text-lg"
+                className="font-bold text-lg w-6 h-6 rounded-full bg-[#e8e6da] flex items-center justify-center hover:bg-[#e8e6da5e] transition-all duration-300 ease-in-out "
                 onClick={() => {
                   quantity > 1 && setQuantity(quantity - 1);
                 }}
@@ -117,13 +179,15 @@ const PlantItem = (props: { plant: PlantType }) => {
               <input
                 type={'number'}
                 value={quantity}
-                className="w-10 appearance-none"
+                className="hidden"
                 onChange={(e) => setQuantity(+e.target.value)}
-                max={plant.countInStock - 1}
-                min={1}
+                // max={plant.countInStock - 1}
+                // min={1}
               />
+              <span>{quantity}</span>
+
               <button
-                className="font-bold text-lg"
+                className="font-bold text-lg w-6 h-6 rounded-full bg-[#e8e6da] flex items-center justify-center hover:bg-[#e8e6da5e] transition-all duration-300 ease-in-out"
                 onClick={handleAddQuantity}
               >
                 +
@@ -133,19 +197,21 @@ const PlantItem = (props: { plant: PlantType }) => {
               <span>Status : </span>
               <span
                 className={`${
-                  plant.countInStock > quantity
+                  plant.countInStock > quantity - 1
                     ? 'text-green-500'
                     : 'text-red-500'
                 }`}
               >
-                {plant.countInStock > quantity ? 'In Stock' : 'Unavailable'}
+                {plant.countInStock > quantity - 1
+                  ? 'In Stock'
+                  : 'Out of Stock'}
               </span>
             </div>
             <button
               type="button"
-              className="bg-[#b2bc83] uppercase text-slate-100 tracking-wider font-bold min-w-full  py-5 mt-10 mb-10 disabled:bg-gray-300"
+              className="bg-[#b2bc83] uppercase text-slate-100 tracking-wider font-bold min-w-full  py-5 mt-10 mb-10 disabled:bg-[#6e7450]"
               onClick={addToCartHandler}
-              disabled={!(plant.countInStock > quantity)}
+              // disabled={!(plant.countInStock > quantity - 1)}
             >
               Add to Cart
             </button>
@@ -155,12 +221,6 @@ const PlantItem = (props: { plant: PlantType }) => {
         {/* <section className="bg-green-300">
             <div></div>
           </section> */}
-      </div>
-    </Layout>
-  ) : (
-    <Layout>
-      <div className="flex-1 text-3xl  flex items-center justify-center">
-        Product not found
       </div>
     </Layout>
   );
