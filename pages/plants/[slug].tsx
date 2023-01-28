@@ -15,7 +15,7 @@ import axios from 'axios';
 const PlantItem = (props: { plant: PlantType }) => {
   const { state, dispatch } = useStoreContext();
   const [quantity, setQuantity] = useState(1);
-
+  const [qtyLoading, setQtyLoading] = useState(false);
   const [img, setImg] = useState('');
 
   const [plant, setPlant] = useState<PlantType | null>(null);
@@ -44,14 +44,18 @@ const PlantItem = (props: { plant: PlantType }) => {
   const handleAddQuantity = async () => {
     if (plant) {
       // const { data } = await axios.get(`/api/plants/${plant._id}`);
+      setQtyLoading(true);
       const { data } = await axios.get(`/api/plants/${plant._id}`);
 
       if (data.countInStock < quantity) {
+        setQtyLoading(false);
         return toast.error('Sorry. Product is out of stock');
       }
 
       // if (quantity < 99 && quantity < data.countInStock) {
       setQuantity(+quantity + 1);
+      setQtyLoading(false);
+
       // }
     }
   };
@@ -184,7 +188,7 @@ const PlantItem = (props: { plant: PlantType }) => {
                 // max={plant.countInStock - 1}
                 // min={1}
               />
-              <span>{quantity}</span>
+              <span>{`${qtyLoading ? '...' : quantity}`}</span>
 
               <button
                 className="font-bold text-lg w-6 h-6 rounded-full bg-[#e8e6da] flex items-center justify-center hover:bg-[#e8e6da5e] transition-all duration-300 ease-in-out"
