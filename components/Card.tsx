@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import Specification from './Specification';
 import Link from 'next/link';
-import { Plant } from '@/utils/data';
+import type { PlantType } from '@/utils/data';
 
-const Card = ({ plant }: { plant: Plant }) => {
+const Card = ({ plant }: { plant: PlantType }) => {
   return (
     <Link href={`/plants/${plant.slug}`}>
       <div
