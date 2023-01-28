@@ -1,8 +1,8 @@
 import React from 'react';
 import svgs from '../utils/svgs';
-import { Plant } from '@/utils/data';
+import { PlantType } from '@/utils/data';
 
-const Specification = ({ plant, n = 3 }: { plant: Plant; n?: number }) => {
+const Specification = ({ plant, n = 3 }: { plant: PlantType; n?: number }) => {
   return (
     <ul className="flex  text-black space-x-6">
       {svgs.slice(0, n).map((el, i) => (
