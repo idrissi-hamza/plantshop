@@ -19,4 +19,8 @@ const plantSchema = new mongoose.Schema(
 );
 
 const Plant = mongoose.model('plant');
+// const Plant = mongoose.models.Plant
+//   ? mongoose.models.Plant
+//   : mongoose.model('plant', plantSchema);
+
 export default Plant;
