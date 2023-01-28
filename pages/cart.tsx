@@ -7,7 +7,8 @@ import type { AddedPlant } from '../utils/Store';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const Cart = () => {
   const router = useRouter();
@@ -17,6 +18,10 @@ const Cart = () => {
   } = state;
 
   const [cartItemsC, setcartItemsC] = useState<AddedPlant[]>([]);
+
+  const [qtyLoading, setQtyLoading] = useState(false);
+  const [target, setTarget] = useState<AddedPlant | null>(null);
+
   useEffect(() => {
     setcartItemsC(cartItems);
   }, [cartItems]);
@@ -30,15 +35,21 @@ const Cart = () => {
       type: 'CART_ADD_ITEM',
       payload: { ...item, quantity: +qty },
     });
+    setQtyLoading(false);
   };
 
   //+ button
-  const addToCartHandler = (item: AddedPlant) => {
-    if (item.quantity < item.countInStock) {
-      updateCartHandler(item, +item.quantity + 1);
-    } else {
-      toast.info('Sorry. Product is out of stock');
+  const addToCartHandler = async (item: AddedPlant) => {
+    setQtyLoading(true);
+    setTarget(item);
+
+    const { data } = await axios.get(`/api/plants/${item._id}`);
+    if (item.quantity > data.countInStock - 1) {
+      setQtyLoading(false);
+      return toast.error('Sorry. Product is out of stock');
     }
+
+    updateCartHandler(item, +item.quantity + 1);
   };
 
   //- button
@@ -61,7 +72,7 @@ const Cart = () => {
   };
   return (
     <Layout title="Shopping Cart">
-      <div className="p-10 min-h-[60vh]">
+      <div className="p-10 flex-1">
         <h1 className="mb-4 text-xl">Shopping Cart</h1>
         {cartItemsC.length === 0 ? (
           <div>
@@ -117,12 +128,14 @@ const Cart = () => {
                             onChange={(e) =>
                               updateCartHandler(item, +e.target.value)
                             }
-                            max={item.countInStock}
-                            min={1}
-
-                            // step={1}
                           />
-                          <span>{item.quantity}</span>
+                          <span>
+                            {target?._id !== item._id
+                              ? `${item.quantity}`
+                              : qtyLoading
+                              ? '...'
+                              : `${item.quantity}`}
+                          </span>
                           <button
                             className="font-bold text-lg w-6 h-6 rounded-full bg-[#e8e6da] flex items-center justify-center hover:bg-[#e8e6da5e] transition-all duration-300 ease-in-out"
                             onClick={() => addToCartHandler(item)}
@@ -154,12 +167,7 @@ const Cart = () => {
                 >
                   Check Out
                 </button>
-                {/* <Link
-                  href={'/shipping'}
-                  className="bg-[#b2bc83] uppercase text-slate-100 tracking-wider font-bold min-w-full  py-3 mt-5 mb-5  w-full self-start text-center "
-                >
-                  Check Out
-                </Link> */}
+          
               </div>
             </div>
           </div>
