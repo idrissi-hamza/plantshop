@@ -1,21 +1,12 @@
 import Layout from '@/components/Layout';
-import PayRadio from '@/components/PayRadio';
-import { Form, Formik } from 'formik';
 import Link from 'next/link';
-import React, { useEffect, useReducer, useState } from 'react';
-import * as Yup from 'yup';
-import LoadingButton from '@/components/LoadingButton';
-import Cookies from 'js-cookie';
-import { useStoreContext } from '@/utils/Store';
+import React, { useEffect, useReducer } from 'react';
 import { useRouter } from 'next/router';
 import Unauthorized from '@/components/Unauthorized';
 import { useSession } from 'next-auth/react';
-import Timeline from '@/components/Timeline';
-import { TbArrowBackUp } from 'react-icons/tb';
 import Image from 'next/image';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { MinForFreeShipping, ShippingFee, Tax } from '@/utils/data';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 
 function reducer(state, action) {
@@ -126,8 +117,8 @@ const OrderScreen = () => {
         dispatch({ type: 'PAY_SUCCESS', payload: data });
         toast.success('Order is paid successgully');
       } catch (err) {
-        dispatch({ type: 'PAY_FAIL', payload: getError(err) });
-        toast.error(getError(err));
+        dispatch({ type: 'PAY_FAIL', payload: err.message });
+        toast.error(err.message);
       }
     });
   }
@@ -181,9 +172,13 @@ const OrderScreen = () => {
                   <h2 className="mb-2 text-lg font-bold">Payment Method</h2>
                   <div>{payMethod}</div>
                   {isPaid ? (
-                    <div className="text-green-600 flex-1 flex items-end">Paid at {paidAt}</div>
+                    <div className="text-green-600 flex-1 flex items-end">
+                      Paid at {paidAt}
+                    </div>
                   ) : (
-                    <div className="text-red-600 flex-1 flex items-end ">Not paid yet ...</div>
+                    <div className="text-red-600 flex-1 flex items-end ">
+                      Not paid yet ...
+                    </div>
                   )}
                 </div>
               </div>

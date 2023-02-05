@@ -19,6 +19,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "utils/svgs.js", "utils/db.ts", "pages/api/auth/[...nextauth].js", "models/Order.ts", "pages/api/orders/index.js", "pages/order/[id].js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "utils/svgs.js", "utils/db.ts", "pages/api/auth/[...nextauth].js", "models/Order.ts", "pages/api/orders/index.js", "pages/order/[id].js", "pages/api/orders/history.js", "pages/history.jsx"],
   "exclude": ["node_modules"]
 }
