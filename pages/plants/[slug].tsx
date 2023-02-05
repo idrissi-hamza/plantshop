@@ -59,6 +59,19 @@ const PlantItem = (props: { plant: PlantType }) => {
       // }
     }
   };
+
+  const [totalCartQuantity, setTotalCartQuantity] = useState(0);
+
+  useEffect(() => {
+    if (plant) {
+      const existItem = state.cart.cartItems.find(
+        (item) => item.slug === plant.slug
+      );
+      const newQuantity = existItem ? existItem.quantity + quantity : quantity;
+      setTotalCartQuantity(newQuantity);
+    }
+  }, [plant, quantity, state.cart.cartItems]);
+
   const addToCartHandler = async () => {
     if (plant) {
       // const { data } = await axios.get(`/api/plants/${plant._id}`);
@@ -72,7 +85,7 @@ const PlantItem = (props: { plant: PlantType }) => {
       //double check
       const { data } = await axios.get(`/api/plants/${plant._id}`);
 
-      if (data.countInStock < quantity) {
+      if (data.countInStock < newQuantity) {
         return toast.error('Sorry. Product is out of stock');
       }
 
@@ -209,12 +222,12 @@ const PlantItem = (props: { plant: PlantType }) => {
               <span>Status : </span>
               <span
                 className={`${
-                  plant.countInStock > quantity - 1
+                  plant.countInStock > totalCartQuantity - 1
                     ? 'text-green-500'
                     : 'text-red-500'
                 }`}
               >
-                {plant.countInStock > quantity - 1
+                {plant.countInStock > totalCartQuantity - 1
                   ? 'In Stock'
                   : 'Out of Stock'}
               </span>
