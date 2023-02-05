@@ -147,8 +147,8 @@ const OrderScreen = () => {
         ) : error ? (
           <div className="">{error}</div>
         ) : (
-          <div className="md:grid md:grid-cols-4 gap-5 flex flex-col ">
-            <div className="overflow-x-auto md:col-span-3 gap-5 flex flex-col">
+          <div className="2xl:grid 2xl:grid-cols-4 gap-5 flex flex-col ">
+            <div className="overflow-x-auto 2xl:col-span-3 gap-5 flex flex-col">
               <div className="flex gap-5">
                 <div className="shadow-md border  p-5 w-2/3 ">
                   <h2 className="mb-2 text-lg font-bold">Shipping Address</h2>
@@ -229,7 +229,7 @@ const OrderScreen = () => {
               </div>
             </div>
 
-            <div className="shadow-md border  p-5 md:self-start self-center max-w-sm min-w-[24rem]">
+            <div className="shadow-md border  p-5 2xl:self-start self-center max-w-sm min-w-[24rem]">
               <h2 className="mb-2 text-lg font-bold">Order Summary</h2>
               <ul>
                 <li>

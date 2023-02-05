@@ -79,8 +79,8 @@ const Cart = () => {
             Cart is empty. <Link href="/">Go shopping</Link>
           </div>
         ) : (
-          <div className="grid md:grid-cols-4 md: gap-5 min-h-full items-start">
-            <div className="overflow-x-auto md:col-span-3 md:mx-10 border shadow-md  cursor-pointer">
+          <div className="grid md:grid-cols-4 gap-5  min-h-full items-start flex-wrap">
+            <div className="overflow-x-auto md:col-span-3  border shadow-md  cursor-pointer">
               <table className="min-w-full ">
                 <thead className="border-b bg-[#e8e6da]">
                   <tr>
@@ -155,7 +155,7 @@ const Cart = () => {
                 </tbody>
               </table>
             </div>
-            <div className="shadow-md p-4 transition-all duration-500 ease-in-out group cursor-pointer border">
+            <div className="shadow-md p-4 transition-all duration-500 ease-in-out group cursor-pointer border ">
               <div className="flex flex-col">
                 <div className="pb-3 text-xl">
                   Subtotal ({cartItemsC.reduce((a, c) => a + c.quantity, 0)}) :
@@ -163,7 +163,7 @@ const Cart = () => {
                 </div>
                 <button
                   onClick={handleClick}
-                  className="bg-[#b2bc83] uppercase text-slate-100 tracking-wider font-bold min-w-full  py-3 mt-5 mb-5  w-full self-start text-center "
+                  className="bg-[#b2bc83] transition-all ease-in-out duration-700 hover:bg-gradient-to-r hover:to-blue-500 hover:from-[#b2bc83]   text-slate-100 tracking-wider font-bold text-2xl py-3 mt-3  px-2 w-full self-start text-center "
                 >
                   Check Out
                 </button>

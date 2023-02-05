@@ -75,7 +75,7 @@ const Payement = () => {
                 <>
                   {/* <span>{values.level}</span> */}
 
-                  <Form className="w-full pr-10  relative flex flex-col items-center justify-center  gap-10">
+                  <Form className="w-full  max-w-xs mx-auto  relative flex flex-col items-center justify-center  gap-10">
                     <div className=" flex flex-col ">
                       <PayRadio
                         label="Payment Method"
@@ -84,9 +84,9 @@ const Payement = () => {
                       />
                     </div>
 
-                    <div className=" flex space-x-6 w-ful ">
+                    <div className=" flex space-x-2 w-full ">
                       <Link
-                        className="text-gray-800   rounded-lg text-base px-4 md:px-5 py-2 md:py-2.5  bg-[#b2bc83] hover:bg-[#a2ab78]  shadow-sm hover:shadow-md active:shadow-none  transition duration-300 ease-in-out font-bold  mb-6 flex items-center justify-center w-32"
+                        className="bg-[#b2bc83] transition-all ease-in-out duration-700 hover:bg-gradient-to-r hover:to-blue-500 hover:from-[#b2bc83]   text-slate-100 tracking-wider font-bold text-2xl py-3   px-2  self-start text-center w-1/2"
                         href="/cart"
                       >
                         Cancel
@@ -94,7 +94,7 @@ const Payement = () => {
                       {!isSubmitting ? (
                         <button
                           type="submit"
-                          className="text-gray-800   rounded-lg text-base px-4 md:px-5 py-2 md:py-2.5  bg-[#b2bc83] hover:bg-[#a2ab78]  shadow-sm hover:shadow-md active:shadow-none  transition duration-300 ease-in-out font-bold w-32 mb-6 "
+                          className="bg-[#b2bc83] transition-all ease-in-out duration-700 hover:bg-gradient-to-r hover:to-blue-500 hover:from-[#b2bc83]   text-slate-100 tracking-wider font-bold text-2xl py-3   px-2  self-start text-center w-1/2"
                         >
                           Continue
                         </button>
