@@ -10,6 +10,7 @@ import { useStoreContext } from '@/utils/Store';
 import { useRouter } from 'next/router';
 import Unauthorized from '@/components/Unauthorized';
 import { useSession } from 'next-auth/react';
+import Timeline from '@/components/Timeline';
 
 const Payement = () => {
   const { data: session } = useSession();
@@ -59,49 +60,53 @@ const Payement = () => {
 
   return (
     <Layout>
-      {session ? (
-        <div className="flex-1  flex items-center ">
-          <Formik
-            initialValues={{ payMethod: initialValues }}
-            validationSchema={Yup.object({
-              payMethod: Yup.string(),
-            })}
-            onSubmit={submitHandler}
-          >
-            {({ values, isSubmitting }) => (
-              <>
-                {/* <span>{values.level}</span> */}
-                <Form className="w-full pr-10  relative flex flex-col items-center justify-center  gap-10">
-                  <div className=" flex flex-col ">
-                    <PayRadio
-                      label="Payment Method"
-                      name="payMethod"
-                      options={options}
-                    />
-                  </div>
+      {session? (
+        <div className=" flex flex-col md:px-32 px-14 pt-16">
+          <Timeline activeStep={2} />
+          <div className="flex-1  flex items-center ">
+            <Formik
+              initialValues={{ payMethod: initialValues }}
+              validationSchema={Yup.object({
+                payMethod: Yup.string(),
+              })}
+              onSubmit={submitHandler}
+            >
+              {({ values, isSubmitting }) => (
+                <>
+                  {/* <span>{values.level}</span> */}
 
-                  <div className=" flex space-x-6 w-ful ">
-                    <Link
-                      className="text-gray-800   rounded-lg text-base px-4 md:px-5 py-2 md:py-2.5  bg-[#b2bc83] hover:bg-[#a2ab78]  shadow-sm hover:shadow-md active:shadow-none  transition duration-300 ease-in-out font-bold  mb-6 flex items-center justify-center w-32"
-                      href="/cart"
-                    >
-                      Cancel
-                    </Link>
-                    {!isSubmitting ? (
-                      <button
-                        type="submit"
-                        className="text-gray-800   rounded-lg text-base px-4 md:px-5 py-2 md:py-2.5  bg-[#b2bc83] hover:bg-[#a2ab78]  shadow-sm hover:shadow-md active:shadow-none  transition duration-300 ease-in-out font-bold w-32 mb-6 "
+                  <Form className="w-full pr-10  relative flex flex-col items-center justify-center  gap-10">
+                    <div className=" flex flex-col ">
+                      <PayRadio
+                        label="Payment Method"
+                        name="payMethod"
+                        options={options}
+                      />
+                    </div>
+
+                    <div className=" flex space-x-6 w-ful ">
+                      <Link
+                        className="text-gray-800   rounded-lg text-base px-4 md:px-5 py-2 md:py-2.5  bg-[#b2bc83] hover:bg-[#a2ab78]  shadow-sm hover:shadow-md active:shadow-none  transition duration-300 ease-in-out font-bold  mb-6 flex items-center justify-center w-32"
+                        href="/cart"
                       >
-                        Continue
-                      </button>
-                    ) : (
-                      <LoadingButton />
-                    )}
-                  </div>
-                </Form>
-              </>
-            )}
-          </Formik>
+                        Cancel
+                      </Link>
+                      {!isSubmitting ? (
+                        <button
+                          type="submit"
+                          className="text-gray-800   rounded-lg text-base px-4 md:px-5 py-2 md:py-2.5  bg-[#b2bc83] hover:bg-[#a2ab78]  shadow-sm hover:shadow-md active:shadow-none  transition duration-300 ease-in-out font-bold w-32 mb-6 "
+                        >
+                          Continue
+                        </button>
+                      ) : (
+                        <LoadingButton />
+                      )}
+                    </div>
+                  </Form>
+                </>
+              )}
+            </Formik>
+          </div>
         </div>
       ) : (
         <Unauthorized />
