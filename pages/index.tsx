@@ -45,8 +45,10 @@ export default function Home({ plants }: { plants: PlantType[] }) {
 
   return (
     <Layout>
-      <div className="min-h-[70vh] mx-auto">
-        <h1>Products</h1>
+      <div className="min-h-[70vh] mx-auto flex flex-col">
+      <h3 className="block mb-6 bg-clip-text text-transparent bg-gradient-to-r to-blue-500 from-[#b2bc83]  font-bold   text-4xl self-start mt-10">
+                All Plants
+              </h3>
         <ul
           className="gap-10 g-red-300 
         
