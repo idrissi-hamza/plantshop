@@ -79,7 +79,7 @@ const Cart = () => {
             Cart is empty. <Link href="/">Go shopping</Link>
           </div>
         ) : (
-          <div className="grid md:grid-cols-4 md:gap-5 min-h-full items-start">
+          <div className="grid md:grid-cols-4 md: gap-5 min-h-full items-start">
             <div className="overflow-x-auto md:col-span-3 md:mx-10 border shadow-md  cursor-pointer">
               <table className="min-w-full ">
                 <thead className="border-b bg-[#e8e6da]">
@@ -155,7 +155,7 @@ const Cart = () => {
                 </tbody>
               </table>
             </div>
-            <div className="shadow-md p-4 hover:scale-105 transition-all duration-500 ease-in-out group cursor-pointer border">
+            <div className="shadow-md p-4 transition-all duration-500 ease-in-out group cursor-pointer border">
               <div className="flex flex-col">
                 <div className="pb-3 text-xl">
                   Subtotal ({cartItemsC.reduce((a, c) => a + c.quantity, 0)}) :
