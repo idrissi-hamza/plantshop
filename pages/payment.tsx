@@ -81,7 +81,7 @@ const Payement = () => {
                         label="Payment Method"
                         name="payMethod"
                         options={options}
-                      />
+                      /> 
                     </div>
 
                     <div className=" flex space-x-2 w-full ">
