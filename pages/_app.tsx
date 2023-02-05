@@ -5,6 +5,7 @@ import { StoreProvider } from '@/utils/Store';
 import { SessionProvider, useSession } from 'next-auth/react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 const nunito = Nunito({
   subsets: ['latin'],
@@ -18,11 +19,15 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <StoreProvider>
-        <div className={`${nunito.variable} font-sans`}>
-          <Component {...pageProps} />
-          <ToastContainer />
-
-        </div>
+        <PayPalScriptProvider
+          options={{ 'client-id': 'test' }}
+          deferLoading={true}
+        >
+          <div className={`${nunito.variable} font-sans`}>
+            <Component {...pageProps} />
+            <ToastContainer />
+          </div>
+        </PayPalScriptProvider>
       </StoreProvider>
     </SessionProvider>
   );
