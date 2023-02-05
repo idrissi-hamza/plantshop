@@ -8,7 +8,7 @@ import TextInput from '@/components/TextInput';
 import LoadingButton from '@/components/LoadingButton';
 import { signIn, useSession } from 'next-auth/react';
 import { toast } from 'react-toastify';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 const Login = () => {
   const { data: session } = useSession();
@@ -41,11 +41,12 @@ const Login = () => {
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     try {
-      const result = await signIn('credentials', {
+      signIn('credentials', {
         redirect: false,
         email,
         password,
       });
+
     } catch (err: any) {
       let message =
         err.response && err.response.data && err.response.data.message
