@@ -1,5 +1,10 @@
 import bcrypt from 'bcryptjs';
 
+export const MinForFreeShipping = 200;
+export const ShippingFee = 200;
+
+export const Tax = 0.2;
+
 export type PlantType = {
   _id?: string;
   name: string;

@@ -19,6 +19,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "utils/svgs.js", "utils/db.ts", "pages/api/auth/[...nextauth].ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "utils/svgs.js", "utils/db.ts", "pages/api/auth/[...nextauth].js", "models/Order.ts", "pages/api/orders/index.js"],
   "exclude": ["node_modules"]
 }

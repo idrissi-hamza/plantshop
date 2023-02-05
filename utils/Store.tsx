@@ -33,6 +33,7 @@ type Action =
   | { type: 'CART_ADD_ITEM'; payload: AddedPlant }
   | { type: 'CART_REMOVE_ITEM'; payload: AddedPlant }
   | { type: 'CART_RESET' }
+  | { type: 'CART_CLEAR_ITEMS' }
   | { type: 'SAVE_SHIPPING_ADDRESS'; payload: ShippingAdressType }
   | { type: 'SAVE_PAYMENT_METHOD'; payload: string };
 
@@ -75,6 +76,9 @@ export const storeReducer = (state: State, action: Action) => {
           payMethod: '',
         },
       };
+
+    case 'CART_CLEAR_ITEMS':
+      return { ...state, cart: { ...state.cart, cartItems: [] } };
 
     case 'SAVE_SHIPPING_ADDRESS':
       const shippingAddress = action.payload;
