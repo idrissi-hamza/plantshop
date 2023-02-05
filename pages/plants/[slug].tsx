@@ -80,6 +80,16 @@ const PlantItem = (props: { plant: PlantType }) => {
         type: 'CART_ADD_ITEM',
         payload: { ...plant, quantity: newQuantity },
       });
+      toast.success('Added successfully', {
+        position: 'top-center',
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
     }
   };
 
@@ -185,8 +195,6 @@ const PlantItem = (props: { plant: PlantType }) => {
                 value={quantity}
                 className="hidden"
                 onChange={(e) => setQuantity(+e.target.value)}
-                // max={plant.countInStock - 1}
-                // min={1}
               />
               <span>{`${qtyLoading ? '...' : quantity}`}</span>
 
