@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import Unauthorized from '@/components/Unauthorized';
 import { useSession } from 'next-auth/react';
 import Timeline from '@/components/Timeline';
-import { TbArrowBackUp } from 'react-icons/tb';
+import { TbArrowAutofitRight, TbArrowBackUp } from 'react-icons/tb';
 import Image from 'next/image';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -31,7 +31,7 @@ const PlaceOrder = () => {
   ); // 123.4567 => 123.46
 
   const shippingPrice = itemsPrice > MinForFreeShipping ? 0 : ShippingFee;
-  const taxPrice = round2(itemsPrice * Tax );
+  const taxPrice = round2(itemsPrice * Tax);
   const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
 
   const router = useRouter();
@@ -47,7 +47,7 @@ const PlaceOrder = () => {
     try {
       setLoading(true);
       // console.log('placing');
-      const {data} = await axios.post('/api/orders', {
+      const { data } = await axios.post('/api/orders', {
         orderItems: cartItems,
         shippingAddress,
         payMethod,
@@ -90,6 +90,13 @@ const PlaceOrder = () => {
               >
                 <TbArrowBackUp className="text-bold text-2xl" />{' '}
                 <span>Go Back to Shopping</span>
+              </Link>
+              <Link
+                href="/history"
+                className=" flex items-center gap-3"
+              >
+                <span>See your pending orders</span>
+                <TbArrowAutofitRight className="text-bold text-2xl" />{' '}
               </Link>
             </div>
           ) : (
@@ -190,8 +197,8 @@ const PlaceOrder = () => {
                           <div>${shippingPrice}</div>
                         </div>
                       </li>
-                      <li>
-                        <div className="mb-2 flex justify-between">
+                      <li className="border-t">
+                        <div className="mb-2   flex justify-between font-bold pt-2 text-xl">
                           <div>Total</div>
                           <div>${totalPrice}</div>
                         </div>
