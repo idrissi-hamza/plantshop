@@ -11,6 +11,8 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 
 const Cart = () => {
+  const round2 = (num: number) => Math.round(num * 100 + Number.EPSILON) / 100;
+
   const router = useRouter();
   const { state, dispatch } = useStoreContext();
   const {
@@ -159,7 +161,7 @@ const Cart = () => {
               <div className="flex flex-col">
                 <div className="pb-3 text-xl">
                   Subtotal ({cartItemsC.reduce((a, c) => a + c.quantity, 0)}) :
-                  ${cartItemsC.reduce((a, c) => a + c.quantity * c.price, 0)}
+                  ${round2(cartItemsC.reduce((a, c) => a + c.quantity * c.price, 0))}
                 </div>
                 <button
                   onClick={handleClick}

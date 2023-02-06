@@ -164,7 +164,7 @@ const PlaceOrder = () => {
                             <td className=" p-5 text-right">{item.quantity}</td>
                             <td className="p-5 text-right">${item.price}</td>
                             <td className="p-5 text-right">
-                              ${item.quantity * item.price}
+                              ${round2(item.quantity * item.price)}
                             </td>
                           </tr>
                         ))}

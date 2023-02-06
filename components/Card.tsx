@@ -22,13 +22,14 @@ const Card = ({
         href={`/plants/${plant.slug}`}
         className="box-up flex flex-col"
       >
-        <div className="img">
+        <div className="img w-[320px] relative h-[340px]">
           <Image
             src={plant.image[0]}
             alt="Picture of the plant"
-            width={320}
-            height={340}
+            // width={320}
+            // height={340}
             // objectFit="cover"
+            fill
           />
         </div>
         <div className="a-more">
@@ -37,7 +38,10 @@ const Card = ({
               <Specification plant={plant} />
             </div>
           </div>
-          More info : <span className="more">more info about the product</span>
+          <div className='px-6'>
+            More info :{' '}
+            <span className="more ">{plant.description.slice(0, 40)}...</span>
+          </div>
         </div>
       </Link>
 
