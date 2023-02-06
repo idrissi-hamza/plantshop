@@ -183,7 +183,7 @@ const PlantItem = (props: { plant: PlantType }) => {
           </div>
           <div className=" flex flex-col items-start  bg-red-40     text-[#3a3b4a]  pt-">
             <h1 className="text-4xl leading-10 pt-10 ">
-              {plant.name} {plant.countInStock}
+              {plant.name} 
             </h1>
             <h2 className="text-3xl leading-5 mt-10">${plant.price}</h2>
             <p className="my-10">{plant.description}</p>
