@@ -234,7 +234,7 @@ const PlantItem = (props: { plant: PlantType }) => {
             </div>
             <button
               type="button"
-              className="bg-[#b2bc83] transition-all ease-in-out duration-700 hover:bg-gradient-to-r hover:to-blue-500 hover:from-[#b2bc83]   text-slate-100 tracking-wider font-bold text-2xl py-3  px-2 w-full self-start text-center mt-10"
+              className="bg-[#b2bc83] transition-all ease-in-out duration-700 hover:bg-gradient-to-r hover:to-blue-500 hover:from-[#b2bc83]   text-slate-100 tracking-wider font-bold text-2xl py-3 mt-3  px-2 w-full self-start text-center"
               onClick={addToCartHandler}
               // disabled={!(plant.countInStock > quantity - 1)}
             >

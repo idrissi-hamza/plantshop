@@ -125,7 +125,7 @@ const Header = () => {
       <div className="my-5 sm:my-0 ">
         <Link
           href="/"
-          className="sm:mr-5  primary-clr   font-extrabold text-xl  "
+          className="sm:mr-5     font-extrabold text-xl  bg-clip-text text-transparent bg-gradient-to-r to-blue-500 from-[#b2bc83]  "
         >
           Green Shop
         </Link>
