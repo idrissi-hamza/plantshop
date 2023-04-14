@@ -19,7 +19,7 @@ const plantSchema = new mongoose.Schema(
 );
 
 // const Plant = mongoose.models.Plant || mongoose.model('plant', plantSchema);
-let Plant;
+let Plant: any;
 if (!mongoose.models.Plant) {
   Plant = mongoose.model('Plant', plantSchema);
 } else {
